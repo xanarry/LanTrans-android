@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ShapeButton">
+        <attr name="backgroundColor_normal" format="color|reference"/>
+        <attr name="backgroundColor_selected" format="color|reference"/>
+        <attr name="textColor_normal" format="color|reference"/>
+        <attr name="textColor_selected" format="color|reference"/>
+        <attr name="textSize_normal" format="dimension|reference"/>
+        <attr name="textSize_selected" format="dimension|reference"/>
+        <attr name="topLeftRadius" format="dimension|reference"/>
+        <attr name="topRightRadius" format="dimension|reference"/>
+        <attr name="bottomLeftRadius" format="dimension|reference"/>
+        <attr name="bottomRightRadius" format="dimension|reference"/>
+        <attr name="strokeColor"  format="color|reference"/>
+        <attr name="strokeWidth"  format="dimension|reference"/>
+        <attr name="shapeType" format="enum">
+            <enum name="oval" value="0"/>
+            <enum name="rectangle" value="1"/>
+            <enum name="ring" value="2"/>
+        </attr>
+    </declare-styleable>
+</resources>

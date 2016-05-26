@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true">
+
+    <ListView
+        android:id="@+id/sendfileListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/options"
+        android:layout_alignParentTop="true">
+
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom"
+        android:alpha="120"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/selectFileBtn"
+            style="@style/AppTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="文  件"
+            android:textColor="#ffffff"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/startSendBtn"
+            style="@style/AppTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="开  始"
+            android:textColor="#ffffff"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
