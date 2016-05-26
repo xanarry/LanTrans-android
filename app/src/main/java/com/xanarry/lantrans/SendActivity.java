@@ -7,11 +7,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xanarry.lantrans.minterfaces.ProgressListener;
@@ -37,6 +36,7 @@ public class SendActivity extends AppCompatActivity {
     public static String PROGRESS_MK = "progress";
     public static String SPEED_MK = "speed";
     public static String TAG;
+    private boolean isSending = false;
 
     private Button fileBtn;
     private Button startSendBtn;
@@ -63,10 +63,24 @@ public class SendActivity extends AppCompatActivity {
         startSendBtn.setOnClickListener(startSentBtnlistener);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (isSending == true) {
+                Utils.showDialog(SendActivity.this, "抱歉", "您有文件正在发送中...");
+            } else {
+                finish();
+            }
+        }
+        return false;
+    }
+
     private View.OnClickListener startSentBtnlistener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (Utils.getBroadcastAddr() == null) {
+            if (isSending == true) {
+                Utils.showDialog(SendActivity.this, "提示", "您当前的发送任务正在进行中");
+            } else if (Utils.getBroadcastAddr() == null) {
                 Utils.showDialog(SendActivity.this, "提示", "您没有处于局域网环境中, 抱歉暂时无法使用!");
             } else if (files.size() == 0) {
                 Utils.showDialog(SendActivity.this, "提示", "首先选择文件是必须的!");
@@ -86,11 +100,15 @@ public class SendActivity extends AppCompatActivity {
     private View.OnClickListener selecfileLinstener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getBaseContext(), FileSelectorActivity.class);
-            intent.putExtra(FileSelectorActivity.keyClassName, SendActivity.class.getName());
-            intent.putExtra(FileSelectorActivity.keyIsSelectFile, true);
-            intent.putExtra(FileSelectorActivity.keyIsSingleSelector, false);
-            startActivityForResult(intent, FileSelectorActivity.requestCodeSingleFile);
+            if (isSending == true) {
+                Utils.showDialog(SendActivity.this, "提示", "您有任务正在进行中, 请完成后再添加文件");
+            } else {
+                Intent intent = new Intent(getBaseContext(), FileSelectorActivity.class);
+                intent.putExtra(FileSelectorActivity.keyClassName, SendActivity.class.getName());
+                intent.putExtra(FileSelectorActivity.keyIsSelectFile, true);
+                intent.putExtra(FileSelectorActivity.keyIsSingleSelector, false);
+                startActivityForResult(intent, FileSelectorActivity.requestCodeSingleFile);
+            }
         }
     };
 
@@ -190,7 +208,9 @@ public class SendActivity extends AppCompatActivity {
 
     class SendFileTask extends AsyncTask<HostAddress, Integer, Integer> {
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+            isSending = true;
+        }
 
         @Override
         protected Integer doInBackground(HostAddress... params) {
@@ -254,6 +274,7 @@ public class SendActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer finishedCount) {
+            isSending = false;
             finishDialogBuilder = new AlertDialog.Builder(SendActivity.this);// 定义弹出框
             finishDialogBuilder.setTitle("提示");// 设置标题
             finishDialogBuilder.setMessage(finishedCount + "个文件已经成功发送!");// 设置信息主体

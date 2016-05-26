@@ -2,6 +2,7 @@ package com.xanarry.lantrans.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import java.io.UnsupportedEncodingException;
 import java.net.Inet4Address;
@@ -94,6 +95,13 @@ public class Utils {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);// 定义弹出框
         builder.setTitle(title);// 设置标题
         builder.setMessage(message);// 设置信息主体
+        builder.setPositiveButton("知道了",// 设置确定键显示的内容及点击后的操作
+                new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();// 直接关闭对话框
+                    }
+                });
         builder.create().show();
     }
 }

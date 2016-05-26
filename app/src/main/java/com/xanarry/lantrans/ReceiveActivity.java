@@ -8,16 +8,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.xanarry.lantrans.utils.FileDesc;
 import com.xanarry.lantrans.minterfaces.ProgressListener;
 import com.xanarry.lantrans.network.TcpServer;
 import com.xanarry.lantrans.network.UdpServer;
 import com.xanarry.lantrans.utils.Configuration;
+import com.xanarry.lantrans.utils.FileDesc;
 import com.xanarry.lantrans.utils.ItemsListAdapter;
 import com.xanarry.lantrans.utils.Utils;
 import com.xanarry.lantrans.utils.ViewHolder;
@@ -30,6 +30,7 @@ import java.util.HashMap;
 public class ReceiveActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String savePath;
+    private boolean isReveiving = false;
     private String TAG;
     private ListView listView;
     private Button startRecvBtn;
@@ -37,7 +38,6 @@ public class ReceiveActivity extends AppCompatActivity {
     private ArrayList<FileDesc> files;
     private ArrayList<Integer> progressRecords = new ArrayList<>();
     private ArrayList<Integer> speedRecords = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,9 @@ public class ReceiveActivity extends AppCompatActivity {
         startRecvBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (savePath == null || savePath.length() == 0) {
+                if (isReveiving == true) {
+                    Utils.showDialog(ReceiveActivity.this, "提示", "您有接收任务正在进行中");
+                } else if (savePath == null || savePath.length() == 0) {
                     Utils.showDialog(ReceiveActivity.this, "提示", "请选择文件保存位置");
                 } else {
                     new ReceiveFileTask().execute();
@@ -64,13 +66,30 @@ public class ReceiveActivity extends AppCompatActivity {
         selectDirBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), FileSelectorActivity.class);
-                intent.putExtra(FileSelectorActivity.keyClassName, MainActivity.class.getName());
-                intent.putExtra(FileSelectorActivity.keyIsSelectFile, false);
-                intent.putExtra(FileSelectorActivity.keyIsSingleSelector, true);
-                startActivityForResult(intent, FileSelectorActivity.requestCodeSingleFile);
+                if (isReveiving == true) {
+                    Utils.showDialog(ReceiveActivity.this, "提示", "您有接收任务正在进行中, 请完成后再选择目录");
+                } else {
+                    Intent intent = new Intent(getBaseContext(), FileSelectorActivity.class);
+                    intent.putExtra(FileSelectorActivity.keyClassName, MainActivity.class.getName());
+                    intent.putExtra(FileSelectorActivity.keyIsSelectFile, false);
+                    intent.putExtra(FileSelectorActivity.keyIsSingleSelector, true);
+                    startActivityForResult(intent, FileSelectorActivity.requestCodeSingleFile);
+                }
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (isReveiving == true) {
+                Utils.showDialog(ReceiveActivity.this, "警告", "您有文件正在接收中...");
+            } else {
+                finish();
+                //System.exit(0);
+            }
+        }
+        return false;
     }
 
     @Override
@@ -113,6 +132,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
+            isReveiving = true;
             progressDialog = new ProgressDialog(ReceiveActivity.this);
             progressDialog.setTitle("提示");
             progressDialog.setMessage("正在等待发送方发送文件···");
@@ -198,6 +218,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer finishedCount) {
+            isReveiving = false;
             AlertDialog.Builder finishDialogBuilder = new AlertDialog.Builder(ReceiveActivity.this);// 定义弹出框
             finishDialogBuilder.setTitle("提示");// 设置标题
             finishDialogBuilder.setMessage(finishedCount + "个文件已经成功发送!");// 设置信息主体

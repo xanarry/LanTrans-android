@@ -31,12 +31,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
             android:background="@drawable/button"
             android:gravity="center"
-            android:layout_weight="1"
             android:text="目  录"
             android:textColor="#ffffff"
             android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/seperator"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="" />
 
         <Button
             android:id="@+id/startRecvBtn"
@@ -44,9 +51,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
             android:background="@drawable/button"
             android:gravity="center"
-            android:layout_weight="1"
             android:text="接  收"
             android:textColor="#ffffff"
             android:textSize="25sp" />

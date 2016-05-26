@@ -1,6 +1,8 @@
 package com.xanarry.lantrans.utils;
 
-public class FileDesc {
+import java.io.Serializable;
+
+public class FileDesc implements Serializable {
     //用户生成文件的描述信息发送给
     private String name;
     private long length;
