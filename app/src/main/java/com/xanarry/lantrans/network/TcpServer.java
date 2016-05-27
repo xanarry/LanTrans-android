@@ -2,9 +2,9 @@ package com.xanarry.lantrans.network;
 
 import android.util.Log;
 
-import com.xanarry.lantrans.utils.FileDesc;
-import com.xanarry.lantrans.utils.Configuration;
 import com.xanarry.lantrans.minterfaces.ProgressListener;
+import com.xanarry.lantrans.utils.Configuration;
+import com.xanarry.lantrans.utils.FileDesc;
 import com.xanarry.lantrans.utils.Utils;
 
 import java.io.BufferedInputStream;

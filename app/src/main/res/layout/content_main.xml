@@ -27,11 +27,11 @@
             android:id="@+id/sendBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textColor="@android:color/white"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/sendbtn"
-            android:text="发送" />
+            android:text="发送"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -44,11 +44,11 @@
             android:id="@+id/recvBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textColor="@android:color/white"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/recvbtn"
-            android:text="接收" />
+            android:text="接收"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
     </LinearLayout>
 
 

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">LanTrans</string>
     <string name="action_settings">关于此app</string>
-    <drawable name="buttom_default">#3F51B5</drawable>
-    <drawable name="buttom_pressed">#272571</drawable>
+    <drawable name="recv_buttom_default">#3F51B5</drawable>
+    <drawable name="recv_buttom_pressed">#272571</drawable>
+    <drawable name="send_buttom_default">#FF4081</drawable>
+    <drawable name="send_buttom_pressed">#972149</drawable>
 </resources>

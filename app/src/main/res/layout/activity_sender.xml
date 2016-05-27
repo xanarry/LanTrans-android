@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:background="@drawable/button"
+            android:background="@drawable/sendbutton"
             android:gravity="center"
             android:text="文  件"
             android:textColor="#ffffff"
@@ -53,14 +53,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:background="@drawable/button"
+            android:background="@drawable/sendbutton"
             android:gravity="center"
             android:text="开  始"
             android:textColor="#ffffff"
             android:textSize="25sp" />
 
     </LinearLayout>
-
 
 </RelativeLayout>
 

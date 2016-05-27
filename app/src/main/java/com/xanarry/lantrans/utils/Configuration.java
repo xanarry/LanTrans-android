@@ -13,6 +13,7 @@ public class Configuration {
     public static final int TCP_PORT = 65500;
     public static final int CONNECT_TIMEOUT = 1;
     public static final int CONNECT_TIMES = 5;
+    public static final int WAITING_TIME = 10;
 
     //IO
     public static final int STRING_BUF_LEN = 1024 * 8;

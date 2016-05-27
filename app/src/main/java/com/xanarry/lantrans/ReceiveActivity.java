@@ -86,7 +86,6 @@ public class ReceiveActivity extends AppCompatActivity {
                 Utils.showDialog(ReceiveActivity.this, "警告", "您有文件正在接收中...");
             } else {
                 finish();
-                //System.exit(0);
             }
         }
         return false;
@@ -132,13 +131,13 @@ public class ReceiveActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            isReveiving = true;
+            isReveiving = true;//只有当tcp server开始后才是在传输文件, 因此屏蔽返回键
             progressDialog = new ProgressDialog(ReceiveActivity.this);
             progressDialog.setTitle("提示");
             progressDialog.setMessage("正在等待发送方发送文件···");
             //将进度条设置为水平风格，让其能够显示具体的进度值
             //dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL) ;
-            //dialog.setCancelable(false) ; //用了这个方法之后，直到图片下载完成，进度条才会消失（即使在这之前点击了屏幕）
+            progressDialog.setCancelable(false); //用了这个方法之后，直到图片下载完成，进度条才会消失（即使在这之前点击了屏幕）
             progressDialog.show();
         }
 
@@ -147,10 +146,19 @@ public class ReceiveActivity extends AppCompatActivity {
             //-3等待主机, -2发现主机 -1更新列表
             //等待主机被发现
             Log.e(TAG, "start udp server");
-            UdpServer udpServer = new UdpServer(Configuration.UDP_PORT);
+            UdpServer udpServer = new UdpServer(Configuration.UDP_PORT, new ProgressListener() {
+                @Override
+                public void updateProgress(int filePositon, long hasGot, long totalSize, int speed) {
+                    int progress = new Double(100.0 * (double) hasGot / (double) totalSize).intValue();
+                    publishProgress(filePositon, progress, speed);
+                }
+            });
 
             DatagramPacket senderPacket = udpServer.waitClient();
             udpServer.close();
+            if (senderPacket == null) {
+                return -1;//超时得到null
+            }
 
             Log.e(TAG, "seder:" + senderPacket.getAddress().getHostName() + " msg:" + Utils.getMessage(senderPacket.getData()));
             senderIP = senderPacket.getAddress();
@@ -189,7 +197,11 @@ public class ReceiveActivity extends AppCompatActivity {
             final int position = values[0];
             final int progress = values[1];
             final long speed = values[2];
-            if (position == -2) {
+            if (position == -3) {//udp server等待连接超时
+                progressDialog.dismiss();
+                isReveiving = false;//超时过后允许退出活动
+                Utils.showDialog(ReceiveActivity.this, "提示", "等待连接超时, 点接收继续等待");
+            } else if (position == -2) {//找到发送者, 正在建立连接
                 progressDialog.setMessage("找到发送者在:" + senderIP.getHostName() + "\n正在建立连接");
             } else if (position == -1) {
                 generateRecvFileList();
@@ -218,6 +230,9 @@ public class ReceiveActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer finishedCount) {
+            if (finishedCount < 0) {
+                return;
+            }
             isReveiving = false;
             AlertDialog.Builder finishDialogBuilder = new AlertDialog.Builder(ReceiveActivity.this);// 定义弹出框
             finishDialogBuilder.setTitle("提示");// 设置标题

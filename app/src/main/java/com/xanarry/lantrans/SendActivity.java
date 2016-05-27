@@ -50,6 +50,8 @@ public class SendActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sender);
+        //修改发送活动的toolbar颜色, 使其与按钮一致
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.colorAccent));
 
         fileBtn = (Button) findViewById(R.id.selectFileBtn);
         startSendBtn = (Button) findViewById(R.id.startSendBtn);

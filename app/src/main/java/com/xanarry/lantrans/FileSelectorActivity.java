@@ -3,6 +3,7 @@ package com.xanarry.lantrans;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -13,11 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import file_and_dir_selector.adapter.FileSelectorAdapter;
 import file_and_dir_selector.bean.FileBean;
@@ -78,6 +77,8 @@ public class FileSelectorActivity extends Activity {
         TextView title = (TextView) findViewById(R.id.titleText);
         if (isSelectFile == true) {
             title.setText("选择发送的文件");
+            findViewById(R.id.layout_top_title).setBackgroundColor(Color.parseColor("#FF4081"));
+            findViewById(R.id.sbt).setBackgroundColor(Color.parseColor("#FF4081"));
         } else {
             title.setText("选择保存目录");
         }
@@ -125,8 +126,8 @@ public class FileSelectorActivity extends Activity {
                 setResult();
                 return;
             }
-            if((listTvPath==null) ||(listTvPath.size()==0)){
-                return ;
+            if ((listTvPath == null) || (listTvPath.size() == 0)) {
+                return;
             }
             String filePath = (String) listTvPath.get(position).getTag();
             for (int i = listTvPath.size() - 1; (i >= 0) && (i >= position); i--) {

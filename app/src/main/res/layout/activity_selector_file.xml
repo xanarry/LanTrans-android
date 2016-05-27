@@ -19,13 +19,13 @@
             android:src="@drawable/selector_back" />
 
         <TextView
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="文件选择器"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:id="@+id/titleText" />
+            android:textSize="18sp" />
 
         <github.alexchueng.shapebutton.ShapeButton
             android:id="@+id/sbt"
