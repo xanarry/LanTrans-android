@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:background="@drawable/sendbutton"
             android:gravity="center"
-            android:text="文  件"
+            android:text="选择文件"
             android:textColor="#ffffff"
             android:textSize="25sp" />
 
@@ -55,7 +55,7 @@
             android:layout_weight="1"
             android:background="@drawable/sendbutton"
             android:gravity="center"
-            android:text="开  始"
+            android:text="开始发送"
             android:textColor="#ffffff"
             android:textSize="25sp" />
 

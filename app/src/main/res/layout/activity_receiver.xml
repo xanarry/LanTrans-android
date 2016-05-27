@@ -34,7 +34,7 @@
             android:layout_weight="1"
             android:background="@drawable/recivebutton"
             android:gravity="center"
-            android:text="目  录"
+            android:text="选择目录"
             android:textColor="#ffffff"
             android:textSize="25sp" />
 
@@ -54,7 +54,7 @@
             android:layout_weight="1"
             android:background="@drawable/recivebutton"
             android:gravity="center"
-            android:text="接  收"
+            android:text="开始接收"
             android:textColor="#ffffff"
             android:textSize="25sp" />
 

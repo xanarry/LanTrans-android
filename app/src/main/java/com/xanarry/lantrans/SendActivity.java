@@ -59,17 +59,18 @@ public class SendActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.sendfileListView);
         listView.setDividerHeight(10);
-        setTitle("发送文件");
+        setTitle("您即将发送文件");
 
         fileBtn.setOnClickListener(selecfileLinstener);
         startSendBtn.setOnClickListener(startSentBtnlistener);
+        Utils.showDialog(this, "如何发送文件", "1: 选择您要发送的文件\n\n2: 点右下角的按钮开始搜索接收者\n\n3: 搜到后按确认发送");
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (isSending == true) {
-                Utils.showDialog(SendActivity.this, "抱歉", "您有文件正在发送中...");
+                Utils.showDialog(SendActivity.this, "提示", "\n您有文件正在发送中...\n");
             } else {
                 finish();
             }

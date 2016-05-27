@@ -48,7 +48,7 @@ public class ReceiveActivity extends AppCompatActivity {
         startRecvBtn = (Button) findViewById(R.id.startRecvBtn);
         selectDirBtn = (Button) findViewById(R.id.selectDirBtn);
 
-        setTitle("接收文件");
+        setTitle("您即将接收文件");
 
         startRecvBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +56,7 @@ public class ReceiveActivity extends AppCompatActivity {
                 if (isReveiving == true) {
                     Utils.showDialog(ReceiveActivity.this, "提示", "您有接收任务正在进行中");
                 } else if (savePath == null || savePath.length() == 0) {
-                    Utils.showDialog(ReceiveActivity.this, "提示", "请选择文件保存位置");
+                    Utils.showDialog(ReceiveActivity.this, "提示", "\n请选择文件保存位置\n");
                 } else {
                     new ReceiveFileTask().execute();
                 }
@@ -67,7 +67,7 @@ public class ReceiveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isReveiving == true) {
-                    Utils.showDialog(ReceiveActivity.this, "提示", "您有接收任务正在进行中, 请完成后再选择目录");
+                    Utils.showDialog(ReceiveActivity.this, "提示", "您有接收任务正在进行中\n请完成后再操作");
                 } else {
                     Intent intent = new Intent(getBaseContext(), FileSelectorActivity.class);
                     intent.putExtra(FileSelectorActivity.keyClassName, MainActivity.class.getName());
@@ -77,6 +77,7 @@ public class ReceiveActivity extends AppCompatActivity {
                 }
             }
         });
+        Utils.showDialog(this, "如何接收文件", "1: 选择您想保存文件到何处\n\n2: 点右下角的按钮开始接收\n\n3: JUST WAITING");
     }
 
     @Override
