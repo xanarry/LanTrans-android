@@ -53,13 +53,13 @@ public class ShapeButton extends Button {
         }*/
         typeVauleComplex();
         arrayGetResource(attrs);
-        backgroundDrawable = (backgroundDrawable == null) ? new GradientDrawable () : backgroundDrawable;
+        backgroundDrawable = (backgroundDrawable == null) ? new GradientDrawable() : backgroundDrawable;
         if (shapeType == 0) {
             int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
             measure(spec, spec);
-            int width = (int)getPaint().measureText(getText().toString());
-            setWidth(width+getPaddingLeft()+getPaddingRight());
-            setHeight(width+getPaddingLeft()+getPaddingRight());
+            int width = (int) getPaint().measureText(getText().toString());
+            setWidth(width + getPaddingLeft() + getPaddingRight());
+            setHeight(width + getPaddingLeft() + getPaddingRight());
             backgroundDrawable.setShape(GradientDrawable.OVAL);
 
         } else if (shapeType == 1) {
@@ -76,14 +76,14 @@ public class ShapeButton extends Button {
         backgroundDrawable.setStroke(strokeWidth, strokeColor);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             setBackground(backgroundDrawable);
-        }else{
+        } else {
             setBackgroundDrawable(backgroundDrawable);
         }
         setTextColor(textColorNormal);
         setOnTouchListener(new MyOnTouchListener());
     }
-    private final class MyOnTouchListener implements OnTouchListener
-    {
+
+    private final class MyOnTouchListener implements OnTouchListener {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
@@ -106,7 +106,7 @@ public class ShapeButton extends Button {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        float max = Math.max(width,height);
+        float max = Math.max(width, height);
         //LogUtils.e("width = " + width + " height = " + height + " max = " + max);
     }
 
@@ -116,6 +116,7 @@ public class ShapeButton extends Button {
         width = w;
         height = h;
     }
+
     private void typeVauleComplex() {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         textSizeNormal = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, textSizeNormal, metrics);
@@ -126,6 +127,7 @@ public class ShapeButton extends Button {
         bottomRightRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomRightRadius, metrics);
         strokeWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, strokeWidth, metrics);
     }
+
     private void arrayGetResource(AttributeSet attrs) {
         final TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.ShapeButton);
         backgroundColorNormal = array.getColor(R.styleable.ShapeButton_backgroundColor_normal, getResources().getColor(android.R.color.transparent));
@@ -139,7 +141,7 @@ public class ShapeButton extends Button {
         topLeftRadius = array.getDimension(R.styleable.ShapeButton_topLeftRadius, topLeftRadius);
         bottomLeftRadius = array.getDimension(R.styleable.ShapeButton_bottomLeftRadius, bottomLeftRadius);
         bottomRightRadius = array.getDimension(R.styleable.ShapeButton_bottomRightRadius, bottomRightRadius);
-        strokeWidth = (int)array.getDimension(R.styleable.ShapeButton_strokeWidth, strokeWidth);
+        strokeWidth = (int) array.getDimension(R.styleable.ShapeButton_strokeWidth, strokeWidth);
         strokeColor = array.getColor(R.styleable.ShapeButton_strokeColor, getResources().getColor(android.R.color.transparent));
         array.recycle();
     }

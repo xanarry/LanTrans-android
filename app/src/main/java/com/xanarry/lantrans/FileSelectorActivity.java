@@ -171,6 +171,7 @@ public class FileSelectorActivity extends Activity {
             if (subFile.isDirectory()) {
                 bean.isShowEditor = !isSelectFile;
                 bean.resId = R.mipmap.ic_folder;
+                bean.isFile = false;
                 if ("DCIM".equalsIgnoreCase(fileName) || "Pictures".equalsIgnoreCase(fileName) || "Picture".equalsIgnoreCase(fileName) || "Camera".equalsIgnoreCase(fileName) || "photo".equalsIgnoreCase(fileName) || "screenshots".equalsIgnoreCase(fileName) || "Screenshot".equalsIgnoreCase(fileName)) {
                     bean.resId = R.mipmap.ic_folder_picture;
                 } else if ("movie".equalsIgnoreCase(fileName) || "movies".equalsIgnoreCase(fileName) || "video".equalsIgnoreCase(fileName) || "videos".equalsIgnoreCase(fileName)) {
@@ -180,6 +181,7 @@ public class FileSelectorActivity extends Activity {
                 }
             } else if (subFile.isFile()) {
                 bean.isShowEditor = isSelectFile;
+                bean.isFile = true;
                 String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
                 //KLog.e("fileName = "+fileName+" suffix = "+suffix);
                 if ("log".equalsIgnoreCase(suffix) || "java".equalsIgnoreCase(suffix) || "txt".equalsIgnoreCase(suffix) || "text".equalsIgnoreCase(suffix) || "json".equalsIgnoreCase(suffix)) {

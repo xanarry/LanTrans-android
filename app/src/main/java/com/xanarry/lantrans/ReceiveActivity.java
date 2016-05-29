@@ -53,6 +53,10 @@ public class ReceiveActivity extends AppCompatActivity {
         startRecvBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Utils.getBroadcastAddr() == null) {
+                    Utils.showDialog(ReceiveActivity.this, "提示", "您没有处于局域网环境中, 抱歉暂时无法使用!");
+                    return;
+                }
                 if (isReveiving == true) {
                     Utils.showDialog(ReceiveActivity.this, "提示", "您有接收任务正在进行中");
                 } else if (savePath == null || savePath.length() == 0) {

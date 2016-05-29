@@ -29,6 +29,7 @@ public class FileSelectorAdapter extends BaseAdapter {
         this.context = context;
         isSingleSelector = true;
     }
+
     /**
      * 更新适配器
      */
@@ -86,9 +87,10 @@ public class FileSelectorAdapter extends BaseAdapter {
         return list;
     }
 
-    public void setIsSingleSelector(boolean isSingleSelector){
+    public void setIsSingleSelector(boolean isSingleSelector) {
         this.isSingleSelector = isSingleSelector;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (list == null || list.size() <= 0) {
@@ -123,26 +125,31 @@ public class FileSelectorAdapter extends BaseAdapter {
         if (idTag.equalsIgnoreCase(bean.path)) {
             holder.ivEditor.setSelected(bean.isSelected);
         }
-        holder.ivEditor.setOnClickListener(new MyOnClickListener(position));
-        holder.layoutBody.setOnClickListener(new MyOnClickListener(position));
+        holder.ivEditor.setOnClickListener(new MyOnClickListener(position, true));
+        holder.layoutBody.setOnClickListener(new MyOnClickListener(position, false));
         return convertView;
     }
 
     private final class MyOnClickListener implements View.OnClickListener {
         private int position;
+        private boolean checkFile;
 
-        public MyOnClickListener(int position) {
+        public MyOnClickListener(int position, boolean checkFile) {
             this.position = position;
+            this.checkFile = checkFile;
         }
 
         @Override
         public void onClick(View v) {
             FileBean bean = list.get(position);
+            if (!checkFile && bean.isFile) {
+                return; //文件不让打开, 如果是点的是条目, 但这个条目又是文件, 直接忽略
+            }
             if (R.id.iv_editor == v.getId()) {
                 bean.isSelected = !bean.isSelected;
                 updateItem(bean, position);
-                if(isSingleSelector){
-                    ((FileSelectorActivity)context).setResult();
+                if (isSingleSelector) {
+                    ((FileSelectorActivity) context).setResult();
                 }
             } else if (R.id.layout_body == v.getId()) {
                 ((FileSelectorActivity) context).loadJsonData(bean.path);

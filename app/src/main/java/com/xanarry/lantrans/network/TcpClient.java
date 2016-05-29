@@ -6,8 +6,8 @@ package com.xanarry.lantrans.network;
 
 import android.util.Log;
 
-import com.xanarry.lantrans.utils.Configuration;
 import com.xanarry.lantrans.minterfaces.ProgressListener;
+import com.xanarry.lantrans.utils.Configuration;
 import com.xanarry.lantrans.utils.Utils;
 
 import java.io.BufferedInputStream;
@@ -19,8 +19,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
-
-import javax.security.auth.login.LoginException;
 
 
 public class TcpClient {
@@ -57,7 +55,7 @@ public class TcpClient {
             if (bufferedInputStream != null) {
                 bufferedInputStream.close();
             }
-            if(bufferedOutputStream != null) {
+            if (bufferedOutputStream != null) {
                 bufferedOutputStream.close();
             }
             if (clientSocket != null) {

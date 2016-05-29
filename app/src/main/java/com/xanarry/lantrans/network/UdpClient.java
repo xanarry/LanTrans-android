@@ -2,8 +2,8 @@ package com.xanarry.lantrans.network;
 
 import android.util.Log;
 
-import com.xanarry.lantrans.utils.Configuration;
 import com.xanarry.lantrans.minterfaces.SearchStateListener;
+import com.xanarry.lantrans.utils.Configuration;
 import com.xanarry.lantrans.utils.Utils;
 
 import java.io.IOException;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/layout_body"
@@ -18,7 +18,7 @@
             android:layout_height="48dp"
             android:scaleType="centerInside"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_folder"/>
+            android:src="@mipmap/ic_folder" />
 
         <TextView
             android:id="@+id/tv"
@@ -32,7 +32,7 @@
             android:singleLine="true"
             android:text="文件名"
             android:textColor="#686868"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_editor"
@@ -52,7 +52,7 @@
             android:layout_height="0.5dp"
             android:layout_alignLeft="@+id/iv_file_logo"
             android:layout_alignParentBottom="true"
-            android:background="#C1C1C1"/>
+            android:background="#C1C1C1" />
     </RelativeLayout>
 
 </LinearLayout>
