@@ -39,10 +39,8 @@ public class UdpServer {
 
             serverSockent.receive(message);//接收client的广播信息
             String strmsg = Utils.getMessage(message.getData());
-            Log.e(TAG, "got sender:" + strmsg);
             message.setData((Configuration.currentTcpPort + Configuration.DELIMITER).getBytes("utf-8"));//将服务器的主机名发送给client
             serverSockent.send(message);//回复信息tcp要使用的Tcp端口给client
-            Log.e(TAG, "find client at: " + message.getAddress().getHostAddress() + " port:" + message.getPort() + " name:" + strmsg);
 
             message.setData(strmsg.getBytes("utf-8"));
             packet = message;

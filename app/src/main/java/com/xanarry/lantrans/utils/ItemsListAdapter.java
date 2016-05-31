@@ -19,11 +19,6 @@ import java.util.HashMap;
  */
 public class ItemsListAdapter extends BaseAdapter {
     private ArrayList<HashMap<String, String>> list;
-    private TextView fileNameText;
-    private TextView fileSizeText;
-    private TextView progressText;
-    private TextView speedText;
-    private ProgressBar progressBar;
     private ArrayList<Integer> progressRecords;
     private ArrayList<Integer> speedRecords;
     private Context context;

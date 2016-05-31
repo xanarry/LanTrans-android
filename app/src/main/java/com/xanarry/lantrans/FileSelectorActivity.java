@@ -217,7 +217,6 @@ public class FileSelectorActivity extends Activity {
         Intent data = new Intent(context, clazz);
         ArrayList<String> list = new ArrayList<String>();
         List<FileBean> fileBeans = adapter.getList();
-        Log.e("List", fileBeans.toString());
         for (int i = 0; (fileBeans != null) && (i < fileBeans.size()); i++) {
             FileBean bean = fileBeans.get(i);
             if (bean.isSelected) {
@@ -228,7 +227,6 @@ public class FileSelectorActivity extends Activity {
         if (list.size() == 0 && isSelectFile == false) {
             list.add(rootPath);
         }
-        Log.e("Selected", list.toString());
 
         data.putStringArrayListExtra(keyFilePaths, list);
         setResult(RESULT_OK, data);

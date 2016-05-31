@@ -13,8 +13,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 /**
@@ -42,12 +44,14 @@ public class TcpServer {
     }
 
     public ArrayList<FileDesc> waitSenderConnect() {
-        ArrayList<FileDesc> files = new ArrayList<>();
+        ArrayList<FileDesc> files = null;
         String fileInfo = "";
         byte[] inputBuf = new byte[Configuration.STRING_BUF_LEN];
 
         try {
             serverSocket = new ServerSocket(this.port);//创建tcp服务器, 接收文件
+            serverSocket.setSoTimeout(Configuration.WAITING_TIME * 1000);//设置等待连接时长
+            Log.e(TAG, "tcp server is waiting");
             channel = serverSocket.accept();//建立链接
             channel.setKeepAlive(Boolean.TRUE);
 
@@ -59,6 +63,7 @@ public class TcpServer {
             fileInfo = Utils.getMessage(inputBuf);
 
             //分离字符串形式的文件描述信息, 保持到arraylist
+            files = new ArrayList<>();
             for (String file : fileInfo.split(Configuration.FILES_SPT)) {
                 String[] fd = file.split(Configuration.FILE_LEN_SPT);
                 files.add(new FileDesc(fd[0], Long.parseLong(fd[1])));
@@ -66,9 +71,17 @@ public class TcpServer {
 
             bufferedOutputStream.write((Utils.getMessage(inputBuf) + Configuration.DELIMITER).getBytes("utf-8"));//将客户端发送的信息原封回复, 表示可以开始传输文件>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             bufferedOutputStream.flush();
-
+        } catch (SocketTimeoutException e) {
+            progressListener.updateProgress(-3, 100, 100, 999);
+            try {
+                serverSocket.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
         return files;
     }
@@ -89,25 +102,17 @@ public class TcpServer {
                 FileDesc fileDesc = files.get(filePosition);
 
                 FileOutputStream fileOutputStream = null;
-                Log.e(TAG, "open file:" + savePath + "/" + fileDesc.getName());
                 File newFile = new File(savePath, fileDesc.getName());
                 newFile.createNewFile();
                 newFile.setWritable(true);
                 fileOutputStream = new FileOutputStream(newFile);
 
-                Log.e(TAG, "start receive:" + fileDesc.getName() + " size:" + fileDesc.getLength());
-
                 bufferedInputStream.read(recvBuf);//接收即将要发送的文件<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                 msg = Utils.getMessage(recvBuf);
-
-                Log.e("get get:", msg);
                 msg += Configuration.DELIMITER;
 
                 bufferedOutputStream.write(msg.getBytes("utf-8"));//发送准备接收的确认>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 bufferedOutputStream.flush();
-
-                String[] senderTellFileDesc = msg.split(Configuration.FILE_LEN_SPT);
-                Log.e(TAG, "receive file:" + senderTellFileDesc[0] + " size:" + senderTellFileDesc[1]);
 
                 startTime = System.nanoTime();
                 if (fileDesc.getLength() == 0) { //接收空文件处理
@@ -139,7 +144,6 @@ public class TcpServer {
                     }
                 }
 
-                Log.e("=================", hasRecieve + "-----" + fileDesc.getLength());
                 if (hasRecieve == fileDesc.getLength()) {
                     String sizeAck = hasRecieve + Configuration.DELIMITER;
                     bufferedOutputStream.write(sizeAck.getBytes("utf-8"));
@@ -153,16 +157,19 @@ public class TcpServer {
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e(TAG, e.getMessage());
-                // Log.e(TAG, "发送文件的过程中发送异常, 目测网络挂了或者对方关掉的软件");
             }
         }
         return filePosition;
     }
 
-    public void close() throws IOException {
-        bufferedInputStream.close();
-        bufferedOutputStream.close();
-        serverSocket.close();
-        channel.close();
+    public void close() {
+        try {
+            bufferedInputStream.close();
+            bufferedOutputStream.close();
+            serverSocket.close();
+            channel.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

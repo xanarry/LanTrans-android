@@ -2,6 +2,9 @@ package com.xanarry.lantrans.utils;
 
 import java.io.Serializable;
 
+/**
+ * Created by xanarry on 2016/5/24.
+ */
 public class FileDesc implements Serializable {
     //用户生成文件的描述信息发送给
     private String name;

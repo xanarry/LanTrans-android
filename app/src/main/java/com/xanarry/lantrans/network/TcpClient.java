@@ -103,8 +103,6 @@ public class TcpClient {
     }
 
     public int sendFile(ArrayList<File> files) {
-        /////////////////////////////socket的输出流       发送的文件
-        Log.e(TAG, "正在发送:" + files.toString());
         int filePosition = 0;
         for (; filePosition < files.size(); filePosition++) {
             long hasSend = 0;
@@ -161,7 +159,6 @@ public class TcpClient {
                         lastimeSend = hasSend;
                         startTime = endTime;
                     }
-                    //Log.e(TAG, filePosition + "   " + hasSend + "   " + file.length() + "   " + speed);
                     progressListener.updateProgress(filePosition, hasSend, file.length(), new Double(speed).intValue());
 
                     if (hasSend == file.length()) {//传输完毕
@@ -174,8 +171,6 @@ public class TcpClient {
                 //接收接收文件大小确认
                 bufferedInputStream.read(ackBuf);
                 String ackSize = Utils.getMessage(ackBuf);
-                Log.e(TAG, "reciver ack filesize" + ackSize);
-
             } catch (IOException e) {
                 Log.e(TAG, e.getMessage());
                 return filePosition;

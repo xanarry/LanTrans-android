@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +26,9 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Created by xanarry on 2016/5/24.
+ */
 public class ReceiveActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String savePath;
@@ -132,7 +134,9 @@ public class ReceiveActivity extends AppCompatActivity {
 
 
     class ReceiveFileTask extends AsyncTask<String, Integer, Integer> {
-        private InetAddress senderIP;
+        private String senderIP;
+        private UdpServer udpServer;
+        private TcpServer tcpServer;
 
         @Override
         protected void onPreExecute() {
@@ -150,8 +154,7 @@ public class ReceiveActivity extends AppCompatActivity {
         protected Integer doInBackground(String... params) {
             //-3等待主机, -2发现主机 -1更新列表
             //等待主机被发现
-            Log.e(TAG, "start udp server");
-            UdpServer udpServer = new UdpServer(Configuration.UDP_PORT, new ProgressListener() {
+            udpServer = new UdpServer(Configuration.UDP_PORT, new ProgressListener() {
                 @Override
                 public void updateProgress(int filePositon, long hasGot, long totalSize, int speed) {
                     int progress = new Double(100.0 * (double) hasGot / (double) totalSize).intValue();
@@ -165,35 +168,37 @@ public class ReceiveActivity extends AppCompatActivity {
                 return -1;//超时得到null
             }
 
-            Log.e(TAG, "seder:" + senderPacket.getAddress().getHostName() + " msg:" + Utils.getMessage(senderPacket.getData()));
-            senderIP = senderPacket.getAddress();
+            senderIP = senderPacket.getAddress().getHostName();
 
             //已经发现主机
             publishProgress(-2, 0, 0);
-            Log.e(TAG, "update progress: 找到主机");
 
             //启动Tcp server
-            TcpServer tcpServer = new TcpServer(Configuration.currentTcpPort, new ProgressListener() {
+            tcpServer = new TcpServer(Configuration.currentTcpPort, new ProgressListener() {
                 @Override
                 public void updateProgress(int filePositon, long hasGot, long totalSize, int speed) {
                     int progress = new Double(100.0 * (double) hasGot / (double) totalSize).intValue();
                     publishProgress(filePositon, progress, speed);
-                    progressRecords.set(filePositon, progress);
+                    if (filePositon > 0) { //如果没有等到连接, filepositon可能是设置负数
+                        progressRecords.set(filePositon, progress);
+                    }
                 }
             });
 
-            Log.e(TAG, "start tcp server waiting");
             //等待与发送方建立Tcp连接
             files = tcpServer.waitSenderConnect();
             progressRecords.clear();
             speedRecords.clear();
+            if (files == null) {
+                return -1;//等待连接失败或
+            }
+
             for (int i = 0; i < files.size(); i++) {
                 progressRecords.add(0);//初始化每个文件的进度记录
                 speedRecords.add(0);
             }
 
-            Log.e(TAG, files.toString());//文件发送可能失败
-            publishProgress(-1, 0, 0);
+            publishProgress(-1, 0, 0);//文件发送可能失败
             return tcpServer.recieveFile(files, savePath);
         }
 
@@ -205,9 +210,9 @@ public class ReceiveActivity extends AppCompatActivity {
             if (position == -3) {//udp server等待连接超时
                 progressDialog.dismiss();
                 isReveiving = false;//超时过后允许退出活动
-                Utils.showDialog(ReceiveActivity.this, "提示", "等待连接超时, 点接收继续等待");
+                Utils.showDialog(ReceiveActivity.this, "提示", "等待连接超时, 点[开始接收]可以继续等待");
             } else if (position == -2) {//找到发送者, 正在建立连接
-                progressDialog.setMessage("找到发送者在:" + senderIP.getHostName() + "\n正在建立连接");
+                progressDialog.setMessage("找到发送者在:" + senderIP + "\n正在等待建立连接");
             } else if (position == -1) {
                 generateRecvFileList();
             } else {
@@ -251,6 +256,7 @@ public class ReceiveActivity extends AppCompatActivity {
                     });
             finishDialogBuilder.create().show();
             Configuration.currentTcpPort -= 1;
+            tcpServer.close();
         }
     }
 }

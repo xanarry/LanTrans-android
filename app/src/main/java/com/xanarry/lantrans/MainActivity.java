@@ -9,6 +9,9 @@ import android.view.View;
 
 import com.xanarry.lantrans.utils.Utils;
 
+/**
+ * Created by xanarry on 2016/5/24.
+ */
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     "目前移动端只支持安卓, 桌面端支持Windows, Linux, OSX, " +
                     "如果您需要桌面端, 或者源码请到github下载\n\n" +
 
-                    "声   明: app中的文件选择和目录选择非原创, 使用了\n" +
+                    "声   明: app中的文件选择和目录选择代码非原创, 使用了\n" +
                     "[作者:AlexCheung(张文亮)] github项目:FileSelector" +
                     "中的源码, 在此对原作者表示感谢!\n\n" +
 

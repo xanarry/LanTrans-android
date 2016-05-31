@@ -27,6 +27,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Created by xanarry on 2016/5/24.
+ */
 public class SendActivity extends AppCompatActivity {
     private ProgressDialog searchDialog;
     AlertDialog.Builder finishDialogBuilder;
@@ -156,7 +159,7 @@ public class SendActivity extends AppCompatActivity {
             searchDialog = new ProgressDialog(SendActivity.this);
             searchDialog.setTitle("提示");
             searchDialog.setMessage("正在搜索主机, 请确认接收方在线");
-            searchDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            //searchDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);//不使用进度条
             searchDialog.setCancelable(false);
             searchDialog.setMax(Configuration.SEARCH_TIMES);
             searchDialog.show();
@@ -243,7 +246,7 @@ public class SendActivity extends AppCompatActivity {
             if (replyMsg.length() > 0 && files.size() > 0) {
                 finished = tcpClient.sendFile(files);
             } else {
-                Utils.showDialog(SendActivity.this, "af", "emmmmmmmm");
+                Utils.showDialog(SendActivity.this, "提示", "对方没有文件发送");
             }
             tcpClient.close();///////////////////
             return finished;

@@ -72,8 +72,6 @@ public class UdpClient {
             e.printStackTrace();
         }
 
-        Log.e(TAG, "send: " + msg + " to " + Utils.getBroadcastAddr() + " " + port);
-
         sendPacket = new DatagramPacket(sendBuf, sendBuf.length, address, port);
         recvPacket = new DatagramPacket(recvBuf, recvBuf.length);
 
