@@ -115,7 +115,7 @@
       <file leaf-file-name="SendActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/xanarry/lantrans/SendActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7989556">
+            <state vertical-scroll-proportion="0.38120106">
               <caret line="288" column="16" selection-start-line="288" selection-start-column="16" selection-end-line="288" selection-end-column="16" />
               <folding />
             </state>
@@ -2191,7 +2191,13 @@
       <option name="project" value="LOCAL" />
       <updated>1468374106285</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="修复接收方开启tcp失败, 而导致发送方强退的bug">
+      <created>1468374166370</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1468374166370</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2430,7 +2436,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/xanarry/lantrans/SendActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7989556">
+        <state vertical-scroll-proportion="0.38120106">
           <caret line="288" column="16" selection-start-line="288" selection-start-column="16" selection-end-line="288" selection-end-column="16" />
           <folding />
         </state>
