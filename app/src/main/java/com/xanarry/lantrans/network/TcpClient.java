@@ -96,7 +96,7 @@ public class TcpClient {
                 Log.e(TAG, "收到回复信息:" + replyMsg);
                 break;
             } catch (IOException e) {
-                Log.e(TAG, ">>>ERROR<<" + e.getStackTrace().toString());
+                Log.e(TAG, ">>>接收回复ERROR<<" + e.toString());
             }
         }
         return replyMsg;

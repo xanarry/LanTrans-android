@@ -246,7 +246,7 @@ public class SendActivity extends AppCompatActivity {
             if (replyMsg.length() > 0 && files.size() > 0) {
                 finished = tcpClient.sendFile(files);
             } else {
-                Utils.showDialog(SendActivity.this, "提示", "对方没有文件发送");
+                return -2;//接收方没有确认
             }
             tcpClient.close();///////////////////
             return finished;
@@ -282,8 +282,13 @@ public class SendActivity extends AppCompatActivity {
         protected void onPostExecute(Integer finishedCount) {
             isSending = false;
             finishDialogBuilder = new AlertDialog.Builder(SendActivity.this);// 定义弹出框
-            finishDialogBuilder.setTitle("提示");// 设置标题
-            finishDialogBuilder.setMessage(finishedCount + "个文件已经成功发送!");// 设置信息主体
+            if (finishedCount >= 0) {
+                finishDialogBuilder.setTitle("提示");// 设置标题
+                finishDialogBuilder.setMessage(finishedCount + "个文件已经成功发送!");// 设置信息主体
+            } else {
+                finishDialogBuilder.setTitle("发生异常");// 设置标题
+                finishDialogBuilder.setMessage("接收方没有发送有效确认信息!");// 设置信息主体
+            }
             finishDialogBuilder.setNegativeButton("确定",// 设置取消的信息
                     new android.content.DialogInterface.OnClickListener() {
                         @Override
