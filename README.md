@@ -16,6 +16,8 @@
 
 7. 笔记本-笔记本(WiFi)
 
+##[豌豆荚下载地址](http://www.wandoujia.com/apps/com.xanarry.lantrans)
+
 #主界面
 <img src=https://github.com/xanarry/LanTrans-android/blob/master/1.jpeg width=350 height=620/>
 
