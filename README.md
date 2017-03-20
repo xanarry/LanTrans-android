@@ -17,7 +17,10 @@
 7. 笔记本-笔记本(WiFi)
 
 ##[豌豆荚下载地址](http://www.wandoujia.com/apps/com.xanarry.lantrans)
+
 **注意：安装应用程序后，安卓用户如发现程序无法访问文件系统，请检查手机的权限设置，确保给了程序相应的权限，程序以系统设置的默认存储位置根目录为路径访问起点**
+
+
 #主界面
 <img src=https://github.com/xanarry/LanTrans-android/blob/master/1.jpeg width=350 height=620/>
 
