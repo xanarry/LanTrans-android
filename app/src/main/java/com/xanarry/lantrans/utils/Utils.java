@@ -51,10 +51,14 @@ public class Utils {
             while (allNetInterfaces.hasMoreElements()) {
                 NetworkInterface netInterface = (NetworkInterface) allNetInterfaces.nextElement();
                 //System.out.println(netInterface.getName());
+                if (netInterface.isLoopback() || netInterface.isPointToPoint()) {
+                    continue;
+                }
+
                 Enumeration<?> addresses = netInterface.getInetAddresses();
                 while (addresses.hasMoreElements()) {
                     InetAddress tempIP = (InetAddress) addresses.nextElement();
-                    if (tempIP != null && tempIP instanceof Inet4Address && !tempIP.getHostAddress().equals("127.0.0.1")) {
+                    if (tempIP != null && tempIP instanceof Inet4Address) {
                         //System.out.println("本机的IP=" + tempIP.getHostAddress());
                         IP = tempIP;
                     }
